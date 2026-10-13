@@ -1,261 +1,57 @@
-# MIER
-Mier-School -Management 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#102b55">
-  <title>MIER | Malda Institute of Education and Research</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fc;
-      color: #182b49;
-      line-height: 1.6;
-    }
-    a { text-decoration: none; }
-    header {
-      background: #102b55;
-      color: white;
-      padding: 18px 6%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    .brand { font-size: 22px; font-weight: bold; }
-    .brand small { display: block; font-size: 11px; color: #d5e5ff; }
-    nav { display: flex; gap: 17px; flex-wrap: wrap; }
-    nav a { color: white; font-size: 14px; }
-    .hero {
-      padding: 75px 7%;
-      color: white;
-      background: linear-gradient(120deg, #102b55, #1768a5);
-    }
-    .hero .tag {
-      color: #ffdf8a;
-      font-weight: bold;
-      letter-spacing: 2px;
-      font-size: 12px;
-    }
-    .hero h1 {
-      font-size: clamp(30px, 5vw, 50px);
-      line-height: 1.2;
-      margin: 16px 0;
-      max-width: 750px;
-    }
-    .hero p { max-width: 650px; color: #e5efff; }
-    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 25px; }
-    .btn {
-      display: inline-block; padding: 12px 19px;
-      border-radius: 8px; font-weight: bold; font-size: 14px;
-    }
-    .primary { background: #ffcf70; color: #102b55; }
-    .secondary { border: 1px solid white; color: white; }
-    main { padding: 45px 6%; max-width: 1250px; margin: auto; }
-    .section-title { font-size: 27px; margin-bottom: 8px; }
-    .intro { color: #62718a; margin-bottom: 25px; }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-    .card {
-      background: white; padding: 23px; border-radius: 14px;
-      border: 1px solid #e2eaf5; box-shadow: 0 5px 20px #19365b0b;
-    }
-    .card .emoji { font-size: 29px; }
-    .card h3 { margin: 10px 0; }
-    .card p { color: #62718a; font-size: 14px; margin-bottom: 16px; }
-    .card a { color: #1768a5; font-weight: bold; font-size: 14px; }
-    .about {
-      margin-top: 42px; background: white; border-radius: 14px;
-      padding: 27px; border: 1px solid #e2eaf5;
-    }
-    .contact {
-      margin-top: 25px; padding: 28px; border-radius: 14px;
-      background: #e8f1ff;
-    }
-    .contact p { margin-top: 8px; }
-    footer {
-      margin-top: 40px; padding: 25px 6%;
-      background: #102b55; color: #e5efff;
-      text-align: center; font-size: 13px;
-    }
-    footer a { color: #ffdf8a; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090909">
+<meta name="description" content="MIER — Malda Institute of Education and Research. Institute information, notices, admissions and resources.">
+<title>MIER | Malda Institute of Education and Research</title>
+<style>
+:root{--bg:#090909;--panel:#141414;--panel2:#1b1b1b;--red:#e51d35;--red2:#ff4356;--white:#f8f8f8;--muted:#aaa;--line:#303030}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:85px}body{margin:0;background:var(--bg);color:var(--white);font-family:Inter,Arial,sans-serif;line-height:1.65}a{color:inherit;text-decoration:none}button,a{touch-action:manipulation}.topline{height:4px;background:linear-gradient(90deg,#70000c,var(--red),#ff7884)}header{position:sticky;top:0;z-index:10;background:#0b0b0bf2;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px 6%;display:flex;justify-content:space-between;align-items:center;gap:20px}.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:1px;font-size:23px}.logo{width:43px;height:43px;border:2px solid var(--red);border-radius:12px;display:grid;place-items:center;color:var(--red);font-size:21px;box-shadow:0 0 24px #e51d3520}.brand small{display:block;font-size:9px;letter-spacing:1.1px;color:#aaa;font-weight:600}nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap}nav a{font-size:13px;color:#ddd}nav a:hover{color:var(--red2)}.nav-cta,.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--red);color:white;border:1px solid var(--red);padding:11px 17px;border-radius:7px;font-size:13px;font-weight:800;transition:.2s}.nav-cta:hover,.btn:hover{background:#bd1025;transform:translateY(-1px)}.btn.ghost{background:transparent;border-color:#555}.btn.ghost:hover{border-color:var(--red)}.hero{position:relative;overflow:hidden;min-height:540px;padding:95px 7%;display:flex;align-items:center;background:radial-gradient(ellipse at 83% 38%,#74101c75 0,transparent 35%),linear-gradient(105deg,#080808 10%,#101010 60%,#1b090c)}.hero:after{content:"MIER";position:absolute;right:-2%;bottom:-100px;font-size:clamp(140px,27vw,360px);font-weight:1000;letter-spacing:-15px;color:#ffffff05;pointer-events:none}.hero-inner{position:relative;z-index:1;max-width:780px}.eyebrow{color:var(--red2);font-size:11px;letter-spacing:3px;font-weight:900;text-transform:uppercase}.hero h1{font-size:clamp(43px,7vw,82px);line-height:1.03;letter-spacing:-2px;margin:18px 0}.hero h1 span{color:var(--red)}.hero p{max-width:640px;color:#c1c1c1;font-size:17px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.hero-note{display:flex;gap:12px;align-items:center;margin-top:38px;color:#999;font-size:12px}.pulse{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 12px var(--red)}main{max-width:1280px;margin:auto;padding:0 6%}.section{padding:70px 0}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:25px}.section h2{font-size:clamp(27px,4vw,38px);line-height:1.2;margin:8px 0}.section h2 span{color:var(--red)}.lead{color:var(--muted);max-width:700px;margin:0}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.card{background:linear-gradient(145deg,#191919,#101010);border:1px solid var(--line);border-radius:13px;padding:24px;min-width:0;transition:.2s}.card:hover{border-color:#7d202b;transform:translateY(-3px)}.iconbox{width:48px;height:48px;display:grid;place-items:center;background:#e51d3518;border:1px solid #e51d3544;border-radius:12px;color:#ff5969;font-size:23px}.card h3{font-size:18px;margin:17px 0 7px}.card p{color:#aaa;font-size:14px;margin:0 0 17px}.textlink{color:#ff6574;font-size:13px;font-weight:800}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}.about-panel{padding:30px;border-radius:16px;background:linear-gradient(145deg,#201014,#121212);border:1px solid #54202a}.statrow{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}.stat{background:#0d0d0d;border:1px solid #333;padding:17px;border-radius:10px}.stat strong{display:block;color:var(--red2);font-size:20px}.stat span{color:#aaa;font-size:12px}.notice-list{display:grid;gap:12px}.notice{display:flex;gap:15px;align-items:flex-start;padding:18px;background:#151515;border:1px solid #303030;border-radius:10px}.notice-mark{flex:0 0 42px;height:42px;display:grid;place-items:center;background:#e51d351a;color:#ff5265;border-radius:9px}.notice h3{margin:0 0 4px;font-size:15px}.notice p{margin:0;color:#aaa;font-size:13px}.status{color:#888;font-size:13px}.admission-banner{padding:35px;border-radius:16px;background:linear-gradient(105deg,#5d0c17,#1a0b0d 70%);border:1px solid #70212c;display:flex;justify-content:space-between;align-items:center;gap:22px}.admission-banner h2{margin:0;font-size:clamp(25px,4vw,36px)}.admission-banner p{margin:8px 0 0;color:#e0bfc2}.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.contact-item{padding:20px;border:1px solid var(--line);border-radius:10px;background:#141414}.contact-item small{color:var(--red2);text-transform:uppercase;letter-spacing:1.5px;font-weight:800}.contact-item p{color:#bbb;font-size:14px;margin-bottom:0;overflow-wrap:anywhere}footer{margin-top:35px;padding:30px 6%;border-top:1px solid #303030;background:#070707;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:#999;font-size:12px}footer strong{color:#fff}footer a{color:#ff6574}.admin{border:1px dashed #4b4b4b;padding:20px;border-radius:12px;background:#101010}.admin summary{cursor:pointer;font-weight:800;color:#ddd}.admin p{font-size:13px;color:#999}.admin input{display:block;width:100%;margin:10px 0;padding:12px;border-radius:7px;background:#080808;color:white;border:1px solid #444}.admin button{cursor:pointer}.hide{display:none!important}
+@media(max-width:850px){header{align-items:flex-start;flex-direction:column}nav{gap:13px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.about-grid{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}.hero{min-height:470px;padding:75px 6%}.section-head{align-items:flex-start;flex-direction:column}.admission-banner{align-items:flex-start;flex-direction:column}}
+@media(max-width:520px){.cards{grid-template-columns:1fr}.brand{font-size:20px}.hero h1{letter-spacing:-1px}.hero p{font-size:15px}.section{padding:48px 0}.admission-banner{padding:24px}.statrow{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 <body>
-  <header>
-    <a class="brand" href="#home" style="color:white">
-      MIER
-      <small>Malda Institute of Education and Research</small>
-    </a>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#services">Quick Links</a>
-      <a href="#contact">Contact</a>
-      <a href="https://sites.google.com/view/mierwebsite2011/home"
-         target="_blank" rel="noopener">Old Website ↗</a>
-    </nav>
-  </header>
-
-  <section class="hero" id="home">
-    <div class="tag">LEARNING • GROWTH • EXCELLENCE</div>
-    <h1>Welcome to MIER</h1>
-    <p>
-      Malda Institute of Education and Research.
-      Explore institutional information, admission resources,
-      notices and our digital gallery.
-    </p>
-    <div class="actions">
-      <a class="btn primary"
-         href="https://sites.google.com/view/mierwebsite2011/home"
-         target="_blank" rel="noopener">Visit Official Website ↗</a>
-      <a class="btn secondary" href="#services">Explore Resources ↓</a>
-    </div>
-  </section>
-
-  <main>
-    <section id="services">
-      <h2 class="section-title">Explore MIER</h2>
-      <p class="intro">Important resources and services in one place.</p>
-
-      <div class="cards">
-        <article class="card">
-          <div class="emoji">🏫</div>
-          <h3>About MIER</h3>
-          <p>Visit the existing website for institutional details and campus information.</p>
-          <a href="https://sites.google.com/view/mierwebsite2011/home"
-             target="_blank" rel="noopener">View Information ↗</a>
-        </article>
-
-        <article class="card" id="admission">
-          <div class="emoji">📝</div>
-          <h3>Online Admission</h3>
-          <p>Apply online using the MIER admission form.</p>
-          <a href="https://script.google.com/macros/s/AKfycbyLT6ngXQvWwRkv6wc_gRQWFhNYadrx3Q2HmLY5zv97yKSVNvU4YIjzSyt4eD37VVeN/exec"
-             target="_blank" rel="noopener">Open Admission Form ↗</a>
-        </article>
-
-        <article class="card">
-          <div class="emoji">🖼️</div>
-          <h3>MIER Gallery</h3>
-          <p>Explore photos and videos in the MIER digital gallery.</p>
-          <a href="https://sites.google.com/view/miergallerycom"
-             target="_blank" rel="noopener">Open Gallery ↗</a>
-        </article>
-
-        <article class="card">
-          <div class="emoji">📢</div>
-          <h3>Notices</h3>
-          <p>Use the existing website for currently published institutional information.</p>
-          <a href="https://sites.google.com/view/mierwebsite2011/home"
-             target="_blank" rel="noopener">View Website ↗</a>
-        </article>
-
-        <article class="card">
-          <div class="emoji">📚</div>
-          <h3>Downloads</h3>
-          <p>Find available documents and resources through the existing website.</p>
-          <a href="https://sites.google.com/view/mierwebsite2011/home"
-             target="_blank" rel="noopener">Find Resources ↗</a>
-        </article>
-
-        <article class="card">
-          <div class="emoji">🔐</div>
-          <h3>Management System</h3>
-          <p>Admin login, student records, attendance and results will be added after secure Firebase setup.</p>
-          <a href="#contact">Coming Soon</a>
-        </article>
-      </div>
-    </section>
-
-    <section class="about" id="about">
-      <h2 class="section-title">About Our Institution</h2>
-      <p>
-        Malda Institute of Education and Research (MIER) is located
-        in the Malda district of West Bengal. Visit the existing
-        website for the institution's published information.
-      </p>
-      <div class="actions">
-        <a class="btn primary"
-           href="https://sites.google.com/view/mierwebsite2011/home"
-           target="_blank" rel="noopener">Read More ↗</a>
-      </div>
-    </section>
-
-    <section class="contact" id="contact">
-      <h2>Contact & Location</h2>
-      <p><strong>Address:</strong> Narayanpur Popra Road,
-        Sonajhuri, Jharpukuria, Old Malda,
-        Malda – 732128, West Bengal, India.</p>
-      <p><strong>Principal:</strong>
-        <a href="tel:9733433300">9733433300</a></p>
-      <p><strong>Office:</strong>
-        <a href="tel:9609652384">9609652384</a> /
-        <a href="tel:9614075988">9614075988</a> /
-        <a href="tel:9547991784">9547991784</a></p>
-      <p><a href="https://sites.google.com/view/mierwebsite2011/home"
-            target="_blank" rel="noopener">Open original MIER website ↗</a></p>
-    </section>
-  </main>
-
-  <footer>
-    <p><strong>MIER — Malda Institute of Education and Research</strong></p>
-    <p>Modern Website & School Management Project</p>
-    <p><a href="https://sites.google.com/view/mierwebsite2011/home"
-          target="_blank" rel="noopener">Original Website</a></p>
-  </footer>
-</body>
-</html>
-
-<section id="admission">
-<h2>Admission Enquiry</h2>
-<div class="card">
-<form id="admissionForm">
-<label>Student Name</label>
-<input required placeholder="Enter student name">
-<label>Parent/Guardian Name</label>
-<input required placeholder="Enter parent name">
-<label>Class/Course</label>
-<input required placeholder="Enter class or course">
-<label>Contact Number</label>
-<input required type="tel" placeholder="Enter contact number">
-<button type="submit">Submit Enquiry</button>
-</form>
-<p id="message"></p>
-</div>
-</section>
-
-<section id="admin">
-<h2>Admin Portal</h2>
-<div class="card">
-<p>Admin login and database will be connected in the Firebase setup step.</p>
-<button onclick="alert('Firebase setup is required for secure Admin Login.')">
-Admin Login
-</button>
-</div>
-</section>
+<div class="topline"></div>
+<header>
+<a class="brand" href="#home" aria-label="MIER Home"><span class="logo">M</span><span>MIER<small>MALDA INSTITUTE OF EDUCATION AND RESEARCH</small></span></a>
+<nav aria-label="Main navigation">
+<a href="#home">Home</a><a href="#about">About</a><a href="#notices">Notices</a><a href="#resources">Resources</a><a href="#contact">Contact</a><a class="nav-cta" href="#admission">Admission ↗</a>
+</nav>
+</header>
+<section class="hero" id="home"><div class="hero-inner">
+<div class="eyebrow">Learning · Growth · Excellence</div>
+<h1>Shape Your<br>Future with <span>MIER.</span></h1>
+<p>Welcome to Malda Institute of Education and Research. Explore institute information, announcements, admission resources and student services through our new digital home.</p>
+<div class="actions"><a class="btn" href="#admission">Admission Portal ↗</a><a class="btn ghost" href="#about">Discover MIER ↓</a></div>
+<div class="hero-note"><span class="pulse"></span> A new digital experience for the MIER community</div>
+</div></section>
+<main>
+<section class="section" id="about"><div class="about-grid"><div><div class="eyebrow">Who we are</div><h2>Welcome to <span>MIER</span></h2><p class="lead">This independent website is being built to bring institute updates and useful resources into one accessible place. Official details and announcements will be added by the institute administration.</p><div class="actions"><a class="btn ghost" href="#contact">Contact Information</a></div></div><div class="about-panel"><div class="eyebrow">Our digital campus</div><h3 style="font-size:25px;margin:10px 0">Knowledge. Opportunity. Progress.</h3><p style="color:#bbb">A mobile-friendly hub for notices, admissions, learning resources and institute updates.</p><div class="statrow"><div class="stat"><strong>24/7</strong><span>Online access</span></div><div class="stat"><strong>One Hub</strong><span>Useful resources</span></div></div></div></div></section>
+<section class="section" id="notices"><div class="section-head"><div><div class="eyebrow">Stay informed</div><h2>Latest <span>Notices</span></h2><p class="lead">Official notices published through the new website will appear here.</p></div></div><div id="notice-list" class="notice-list"><div class="notice"><div class="notice-mark">!</div><div><h3>Notice board is being prepared</h3><p>New notices will appear here after the Firebase project and administrator permissions are configured.</p></div></div></div></section>
+<section class="section" id="resources"><div class="section-head"><div><div class="eyebrow">Explore online</div><h2>Institute <span>Resources</span></h2><p class="lead">Purpose-built sections for the MIER community.</p></div></div><div class="cards">
+<article class="card"><div class="iconbox">📣</div><h3>Notice Board</h3><p>Read announcements and important institute updates.</p><a class="textlink" href="#notices">View notices →</a></article>
+<article class="card"><div class="iconbox">📝</div><h3>Online Admission</h3><p>Open the separate admission application portal.</p><a class="textlink" id="admission-card-link" href="#admission">Open admission →</a></article>
+<article class="card"><div class="iconbox">▧</div><h3>Photo &amp; Video Gallery</h3><p>A dedicated gallery section will be connected in a future update.</p><a class="textlink" href="#contact">Gallery updates →</a></article>
+<article class="card"><div class="iconbox">▤</div><h3>Downloads</h3><p>Official PDFs, forms and documents will be listed here.</p><a class="textlink" href="#contact">Coming soon →</a></article>
+<article class="card"><div class="iconbox">✓</div><h3>Results</h3><p>A place for verified result announcements and student information.</p><a class="textlink" href="#contact">Coming soon →</a></article>
+<article class="card"><div class="iconbox">♙</div><h3>Teachers &amp; Staff</h3><p>Institute profiles and staff information will be added after verification.</p><a class="textlink" href="#contact">Staff information →</a></article>
+</div></section>
+<section class="section" id="admission"><div class="admission-banner"><div><div class="eyebrow">Applications</div><h2>Start your admission journey.</h2><p>Admission is handled through a separate application portal.</p></div><a class="btn" id="admission-main-link" href="https://script.google.com/macros/s/AKfycbyLT6ngXQvWwRkv6wc_gRQWFhNYadrx3Q2HmLY5zv97yKSVNvU4YIjzSyt4eD37VVeN/exec" target="_blank" rel="noopener noreferrer">Open Admission Form ↗</a></div></section>
+<section class="section" id="contact"><div class="section-head"><div><div class="eyebrow">Get in touch</div><h2>Contact <span>MIER</span></h2><p class="lead">Please verify the institute contact details before publishing them as official information.</p></div></div><div class="contact-grid"><div class="contact-item"><small>Institution</small><p>Malda Institute of Education and Research</p></div><div class="contact-item"><small>Location</small><p>Malda, West Bengal, India</p></div><div class="contact-item"><small>Website</small><p>This independent website is hosted through GitHub Pages.</p></div></div></section>
+<section class="section" id="admin"><details class="admin"><summary>Administrator sign-in (setup required)</summary><p>Firebase credentials and security rules must be configured before administrator access can be enabled. Never place a service-account key or private secret in this public website.</p><label for="admin-email">Admin email</label><input id="admin-email" type="email" autocomplete="username" placeholder="Admin email"><label for="admin-password">Password</label><input id="admin-password" type="password" autocomplete="current-password" placeholder="Password"><button class="btn" id="login-btn" type="button" disabled>Enable after Firebase setup</button><p id="auth-status" role="status">Firebase setup pending.</p></details></section>
 </main>
-
-<footer>
-<strong>MIER — Malda Institute of Education and Research</strong>
-<p>School Website & Management Portal</p>
-</footer>
-
+<footer><div><strong>MIER — Malda Institute of Education and Research</strong><br>Independent website · Black + Red edition</div><div>© <span id="year"></span> MIER. All rights reserved.</div></footer>
 <script>
-document.getElementById("admissionForm").addEventListener("submit",function(event){
-event.preventDefault();
-document.getElementById("message").textContent =
-"Demo only: Firebase setup is required to save your enquiry.";
+document.getElementById('year').textContent=new Date().getFullYear();
+// Firebase is intentionally not connected until the new project's own config
+// and secure Firestore rules are supplied. This site does not connect to the old website.
+const ADMISSION_URL='https://script.google.com/macros/s/AKfycbyLT6ngXQvWwRkv6wc_gRQWFhNYadrx3Q2HmLY5zv97yKSVNvU4YIjzSyt4eD37VVeN/exec';
+['admission-card-link','admission-main-link'].forEach(id=>{
+ const el=document.getElementById(id);
+ if(el){el.href=ADMISSION_URL;el.target='_blank';el.rel='noopener noreferrer';}
 });
 </script>
 </body>
