@@ -33,6 +33,21 @@ nav a:not(.nav-cta):hover::after{right:0}
 
 @media(max-width:850px){header{align-items:flex-start;flex-direction:column}nav{gap:13px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.about-grid{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}.hero{min-height:450px;padding:70px 6%}.section-head{align-items:flex-start;flex-direction:column}.admission-banner{align-items:flex-start;flex-direction:column}}
 @media(max-width:520px){.cards{grid-template-columns:1fr}.brand{font-size:20px}.brand small{font-size:8px}.hero h1{letter-spacing:-1.4px}.hero p{font-size:15px}.section{padding:48px 0}.admission-banner{padding:24px}.statrow{grid-template-columns:1fr 1fr}nav{gap:11px}nav a{font-size:12px}}
+
+/* School photo hero background with cinematic navy/gold colour grading */
+.hero{
+  background-image:
+    linear-gradient(105deg,rgba(4,14,31,.88) 0%,rgba(7,24,46,.68) 52%,rgba(8,20,38,.56) 100%),
+    linear-gradient(0deg,rgba(185,139,48,.16),rgba(7,18,37,.10)),
+    url("https://drive.google.com/thumbnail?id=1vx488Ha_EiiN0nC9gGCspab0SjVmY9AX&sz=w2000");
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+  animation:none;
+}
+.hero:after{color:rgba(255,255,255,.09)}
+@media(max-width:850px){.hero{background-position:center center}}
+
 </style>
 </head>
 <body>
