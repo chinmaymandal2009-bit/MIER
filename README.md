@@ -1,2 +1,0 @@
-# MIER
-Mier-School -Management 
