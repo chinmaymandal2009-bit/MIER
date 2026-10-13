@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIER | School Management</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fc;color:#172b4d}
+header{background:#103765;color:white;padding:18px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+nav a{color:white;text-decoration:none;margin:5px}
+.hero{padding:65px 22px;background:linear-gradient(120deg,#103765,#2878c8);color:white}
+.hero h1{font-size:38px}
+.hero p{line-height:1.7}
+button,.btn{background:#1769bd;color:white;border:0;padding:12px 18px;border-radius:8px;cursor:pointer}
+main{max-width:1000px;margin:auto;padding:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.card{background:white;padding:22px;border-radius:14px;box-shadow:0 3px 14px #0000000c}
+section{margin:25px 0}
+input{display:block;width:100%;padding:12px;margin:10px 0;border:1px solid #ccd6e2;border-radius:7px}
+footer{text-align:center;background:#103765;color:white;padding:25px}
+</style>
+</head>
+<body>
+<header>
+<nav>
+<strong>🎓 MIER</strong>
+<div>
+<a href="#home">Home</a>
+<a href="#about">About</a>
+<a href="#notices">Notices</a>
+<a href="#admission">Admission</a>
+<a href="#admin">Admin</a>
+</div>
+</nav>
+</header>
+
+<section class="hero" id="home">
+<h1>Welcome to MIER</h1>
+<h2>Malda Institute of Education and Research</h2>
+<p>Learn • Lead • Achieve</p>
+<a class="btn" href="#admission">Online Admission</a>
+</section>
+
+<main>
+<section id="about">
+<h2>About Our Institution</h2>
+<div class="card">
+Welcome to MIER — Malda Institute of Education and Research.
+Our digital campus brings school information and services together.
+</div>
+</section>
+
+<section>
+<h2>School Management</h2>
+<div class="cards">
+<div class="card"><h3>👨‍🎓 Students</h3><p>Student records and profiles.</p></div>
+<div class="card"><h3>👩‍🏫 Teachers</h3><p>Teacher and staff information.</p></div>
+<div class="card"><h3>📅 Attendance</h3><p>Daily attendance management.</p></div>
+<div class="card"><h3>📊 Results</h3><p>Examination and marks records.</p></div>
+</div>
+</section>
+
+<section id="notices">
+<h2>Notice Board</h2>
+<div class="card">
+<p>Welcome to the MIER official website.</p>
+<p>New notices will be published here.</p>
+</div>
+</section>
+
+<section id="admission">
+<h2>Admission Enquiry</h2>
+<div class="card">
+<form id="admissionForm">
+<label>Student Name</label>
+<input required placeholder="Enter student name">
+<label>Parent/Guardian Name</label>
+<input required placeholder="Enter parent name">
+<label>Class/Course</label>
+<input required placeholder="Enter class or course">
+<label>Contact Number</label>
+<input required type="tel" placeholder="Enter contact number">
+<button type="submit">Submit Enquiry</button>
+</form>
+<p id="message"></p>
+</div>
+</section>
+
+<section id="admin">
+<h2>Admin Portal</h2>
+<div class="card">
+<p>Admin login and database will be connected in the Firebase setup step.</p>
+<button onclick="alert('Firebase setup is required for secure Admin Login.')">
+Admin Login
+</button>
+</div>
+</section>
+</main>
+
+<footer>
+<strong>MIER — Malda Institute of Education and Research</strong>
+<p>School Website & Management Portal</p>
+</footer>
+
+<script>
+document.getElementById("admissionForm").addEventListener("submit",function(event){
+event.preventDefault();
+document.getElementById("message").textContent =
+"Demo only: Firebase setup is required to save your enquiry.";
+});
+</script>
+</body>
+</html>
