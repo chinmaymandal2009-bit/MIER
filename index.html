@@ -1,77 +1,221 @@
 # MIER
 Mier-School -Management 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MIER | School Management</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f7fc;color:#172b4d}
-header{background:#103765;color:white;padding:18px}
-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-nav a{color:white;text-decoration:none;margin:5px}
-.hero{padding:65px 22px;background:linear-gradient(120deg,#103765,#2878c8);color:white}
-.hero h1{font-size:38px}
-.hero p{line-height:1.7}
-button,.btn{background:#1769bd;color:white;border:0;padding:12px 18px;border-radius:8px;cursor:pointer}
-main{max-width:1000px;margin:auto;padding:20px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
-.card{background:white;padding:22px;border-radius:14px;box-shadow:0 3px 14px #0000000c}
-section{margin:25px 0}
-input{display:block;width:100%;padding:12px;margin:10px 0;border:1px solid #ccd6e2;border-radius:7px}
-footer{text-align:center;background:#103765;color:white;padding:25px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b55">
+  <title>MIER | Malda Institute of Education and Research</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fc;
+      color: #182b49;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; }
+    header {
+      background: #102b55;
+      color: white;
+      padding: 18px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .brand { font-size: 22px; font-weight: bold; }
+    .brand small { display: block; font-size: 11px; color: #d5e5ff; }
+    nav { display: flex; gap: 17px; flex-wrap: wrap; }
+    nav a { color: white; font-size: 14px; }
+    .hero {
+      padding: 75px 7%;
+      color: white;
+      background: linear-gradient(120deg, #102b55, #1768a5);
+    }
+    .hero .tag {
+      color: #ffdf8a;
+      font-weight: bold;
+      letter-spacing: 2px;
+      font-size: 12px;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 50px);
+      line-height: 1.2;
+      margin: 16px 0;
+      max-width: 750px;
+    }
+    .hero p { max-width: 650px; color: #e5efff; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 25px; }
+    .btn {
+      display: inline-block; padding: 12px 19px;
+      border-radius: 8px; font-weight: bold; font-size: 14px;
+    }
+    .primary { background: #ffcf70; color: #102b55; }
+    .secondary { border: 1px solid white; color: white; }
+    main { padding: 45px 6%; max-width: 1250px; margin: auto; }
+    .section-title { font-size: 27px; margin-bottom: 8px; }
+    .intro { color: #62718a; margin-bottom: 25px; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: white; padding: 23px; border-radius: 14px;
+      border: 1px solid #e2eaf5; box-shadow: 0 5px 20px #19365b0b;
+    }
+    .card .emoji { font-size: 29px; }
+    .card h3 { margin: 10px 0; }
+    .card p { color: #62718a; font-size: 14px; margin-bottom: 16px; }
+    .card a { color: #1768a5; font-weight: bold; font-size: 14px; }
+    .about {
+      margin-top: 42px; background: white; border-radius: 14px;
+      padding: 27px; border: 1px solid #e2eaf5;
+    }
+    .contact {
+      margin-top: 25px; padding: 28px; border-radius: 14px;
+      background: #e8f1ff;
+    }
+    .contact p { margin-top: 8px; }
+    footer {
+      margin-top: 40px; padding: 25px 6%;
+      background: #102b55; color: #e5efff;
+      text-align: center; font-size: 13px;
+    }
+    footer a { color: #ffdf8a; }
+  </style>
 </head>
 <body>
-<header>
-<nav>
-<strong>🎓 MIER</strong>
-<div>
-<a href="#home">Home</a>
-<a href="#about">About</a>
-<a href="#notices">Notices</a>
-<a href="#admission">Admission</a>
-<a href="#admin">Admin</a>
-</div>
-</nav>
-</header>
+  <header>
+    <a class="brand" href="#home" style="color:white">
+      MIER
+      <small>Malda Institute of Education and Research</small>
+    </a>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Quick Links</a>
+      <a href="#contact">Contact</a>
+      <a href="https://sites.google.com/view/mierwebsite2011/home"
+         target="_blank" rel="noopener">Old Website ↗</a>
+    </nav>
+  </header>
 
-<section class="hero" id="home">
-<h1>Welcome to MIER</h1>
-<h2>Malda Institute of Education and Research</h2>
-<p>Learn • Lead • Achieve</p>
-<a class="btn" href="#admission">Online Admission</a>
-</section>
+  <section class="hero" id="home">
+    <div class="tag">LEARNING • GROWTH • EXCELLENCE</div>
+    <h1>Welcome to MIER</h1>
+    <p>
+      Malda Institute of Education and Research.
+      Explore institutional information, admission resources,
+      notices and our digital gallery.
+    </p>
+    <div class="actions">
+      <a class="btn primary"
+         href="https://sites.google.com/view/mierwebsite2011/home"
+         target="_blank" rel="noopener">Visit Official Website ↗</a>
+      <a class="btn secondary" href="#services">Explore Resources ↓</a>
+    </div>
+  </section>
 
-<main>
-<section id="about">
-<h2>About Our Institution</h2>
-<div class="card">
-Welcome to MIER — Malda Institute of Education and Research.
-Our digital campus brings school information and services together.
-</div>
-</section>
+  <main>
+    <section id="services">
+      <h2 class="section-title">Explore MIER</h2>
+      <p class="intro">Important resources and services in one place.</p>
 
-<section>
-<h2>School Management</h2>
-<div class="cards">
-<div class="card"><h3>👨‍🎓 Students</h3><p>Student records and profiles.</p></div>
-<div class="card"><h3>👩‍🏫 Teachers</h3><p>Teacher and staff information.</p></div>
-<div class="card"><h3>📅 Attendance</h3><p>Daily attendance management.</p></div>
-<div class="card"><h3>📊 Results</h3><p>Examination and marks records.</p></div>
-</div>
-</section>
+      <div class="cards">
+        <article class="card">
+          <div class="emoji">🏫</div>
+          <h3>About MIER</h3>
+          <p>Visit the existing website for institutional details and campus information.</p>
+          <a href="https://sites.google.com/view/mierwebsite2011/home"
+             target="_blank" rel="noopener">View Information ↗</a>
+        </article>
 
-<section id="notices">
-<h2>Notice Board</h2>
-<div class="card">
-<p>Welcome to the MIER official website.</p>
-<p>New notices will be published here.</p>
-</div>
-</section>
+        <article class="card">
+          <div class="emoji">📝</div>
+          <h3>Admission</h3>
+          <p>Open the existing MIER website to find admission information and available forms.</p>
+          <a href="https://sites.google.com/view/mierwebsite2011/home"
+             target="_blank" rel="noopener">Admission Resources ↗</a>
+        </article>
+
+        <article class="card">
+          <div class="emoji">🖼️</div>
+          <h3>MIER Gallery</h3>
+          <p>Explore photos and videos in the MIER digital gallery.</p>
+          <a href="https://sites.google.com/view/miergallerycom"
+             target="_blank" rel="noopener">Open Gallery ↗</a>
+        </article>
+
+        <article class="card">
+          <div class="emoji">📢</div>
+          <h3>Notices</h3>
+          <p>Use the existing website for currently published institutional information.</p>
+          <a href="https://sites.google.com/view/mierwebsite2011/home"
+             target="_blank" rel="noopener">View Website ↗</a>
+        </article>
+
+        <article class="card">
+          <div class="emoji">📚</div>
+          <h3>Downloads</h3>
+          <p>Find available documents and resources through the existing website.</p>
+          <a href="https://sites.google.com/view/mierwebsite2011/home"
+             target="_blank" rel="noopener">Find Resources ↗</a>
+        </article>
+
+        <article class="card">
+          <div class="emoji">🔐</div>
+          <h3>Management System</h3>
+          <p>Admin login, student records, attendance and results will be added after secure Firebase setup.</p>
+          <a href="#contact">Coming Soon</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <h2 class="section-title">About Our Institution</h2>
+      <p>
+        Malda Institute of Education and Research (MIER) is located
+        in the Malda district of West Bengal. Visit the existing
+        website for the institution's published information.
+      </p>
+      <div class="actions">
+        <a class="btn primary"
+           href="https://sites.google.com/view/mierwebsite2011/home"
+           target="_blank" rel="noopener">Read More ↗</a>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <h2>Contact & Location</h2>
+      <p><strong>Address:</strong> Narayanpur Popra Road,
+        Sonajhuri, Jharpukuria, Old Malda,
+        Malda – 732128, West Bengal, India.</p>
+      <p><strong>Principal:</strong>
+        <a href="tel:9733433300">9733433300</a></p>
+      <p><strong>Office:</strong>
+        <a href="tel:9609652384">9609652384</a> /
+        <a href="tel:9614075988">9614075988</a> /
+        <a href="tel:9547991784">9547991784</a></p>
+      <p><a href="https://sites.google.com/view/mierwebsite2011/home"
+            target="_blank" rel="noopener">Open original MIER website ↗</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>MIER — Malda Institute of Education and Research</strong></p>
+    <p>Modern Website & School Management Project</p>
+    <p><a href="https://sites.google.com/view/mierwebsite2011/home"
+          target="_blank" rel="noopener">Original Website</a></p>
+  </footer>
+</body>
+</html>
 
 <section id="admission">
 <h2>Admission Enquiry</h2>
