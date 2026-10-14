@@ -37,17 +37,26 @@ async function consumeAttempt(request) {
 exports.parentStudentLookup = onCall({ region: REGION, enforceAppCheck: false }, async (request) => {
   await consumeAttempt(request);
   const name = String(request.data?.name || "").trim();
-  if (!name || name.length > 120) {
-    throw new HttpsError("invalid-argument", "Enter the child's exact full name.");
+  const classSection = String(request.data?.classSection || "").trim();
+  const roll = String(request.data?.roll || "").trim();
+  if (!name || name.length > 120 || !classSection || classSection.length > 80 || !roll || roll.length > 20) {
+    throw new HttpsError("invalid-argument", "Enter the exact name, class/section, and roll number.");
   }
 
   const wanted = normalizeName(name);
+  const wantedClass = normalizeName(classSection);
+  const wantedRoll = normalizeName(roll);
   const studentSnap = await db.collection("students").get();
-  const matches = studentSnap.docs.filter((doc) => normalizeName(doc.data().name) === wanted);
+  const matches = studentSnap.docs.filter((doc) => {
+    const s = doc.data();
+    return normalizeName(s.name) === wanted
+      && normalizeName(s.classSection) === wantedClass
+      && normalizeName(s.roll) === wantedRoll;
+  });
 
-  // Name-only access is not identity verification. Refuse ambiguous duplicate names.
+  // These fields help narrow the record but are not strong identity verification.
   if (matches.length !== 1) {
-    throw new HttpsError("not-found", "No unique student record found for that exact name.");
+    throw new HttpsError("not-found", "No unique student record found for that exact name, class, and roll.");
   }
 
   const s = matches[0].data();
