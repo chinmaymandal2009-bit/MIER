@@ -131,7 +131,7 @@ footer strong{background:linear-gradient(100deg,#f2dfaa,#2dd4bf,#d5b15b);backgro
 <section class="section" id="উপস্থিতি"><div class="section-head"><div><div class="eyebrow">দৈনিক শিক্ষা প্রতিষ্ঠানের কার্যক্রম</div><h2>শিক্ষার্থীদের <span>উপস্থিতি</span></h2><p class="lead">অনুমোদিত শিক্ষক ও প্রশাসকদের জন্য শ্রেণিভিত্তিক উপস্থিতির খাতা।</p></div></div><div class="cards"><article class="card"><div class="iconbox">📅</div><h3>দৈনিক উপস্থিতি</h3><p>শ্রেণি ও তারিখ নির্বাচন করে প্রত্যেক শিক্ষার্থীর উপস্থিত, অনুপস্থিত বা দেরিতে উপস্থিতি চিহ্নিত করুন।</p></article><article class="card"><div class="iconbox">▤</div><h3>উপস্থিতির ইতিহাস</h3><p>ডেটাবেস সংযোগের পর তারিখ, শ্রেণি বা শিক্ষার্থী অনুযায়ী উপস্থিতির তথ্য দেখুন।</p></article><article class="card"><div class="iconbox">%</div><h3>উপস্থিতির সারাংশ</h3><p>সংরক্ষিত তথ্য থেকে মোট উপস্থিতি ও শতকরা হার হিসাব করুন।</p></article></div><div class="admin" style="margin-top:18px"><strong>সেটআপ প্রয়োজন</strong><p>উপস্থিতি নথিভুক্ত করার ব্যবস্থা এখনও চালু হয়নি। জনসাধারণ যাতে শিক্ষার্থীদের উপস্থিতি দেখতে বা পরিবর্তন করতে না পারে, সে জন্য আগে Firebase sign-in, ভূমিকা-ভিত্তিক অনুমতি ও Firestore নিরাপত্তা নিয়ম সেটআপ করতে হবে।</p><a class="btn ghost" href="bn-উপস্থিতি.html">উপস্থিতি ব্যবস্থা →</a></div></section>
 <section class="section" id="admission"><div class="admission-banner"><div><div class="eyebrow">আবেদন</div><h2>ভর্তির প্রক্রিয়া শুরু করুন।</h2><p>ভর্তি একটি আলাদা আবেদন পোর্টালের মাধ্যমে পরিচালিত হয়।</p></div><a class="btn" id="admission-main-link" href="https://script.google.com/macros/s/AKfycbyLT6ngXQvWwRkv6wc_gRQWFhNYadrx3Q2HmLY5zv97yKSVNvU4YIjzSyt4eD37VVeN/exec" target="_blank" rel="noopener noreferrer">ভর্তি ফর্ম খুলুন ↗</a></div></section>
 <section class="section" id="contact"><div class="section-head"><div><div class="eyebrow">যোগাযোগ করুন</div><h2><span>MIER</span>-এর সঙ্গে যোগাযোগ</h2><p class="lead">প্রাতিষ্ঠানিক তথ্য হিসেবে প্রকাশ করার আগে যোগাযোগের বিবরণ যাচাই করুন।</p></div></div><div class="contact-grid"><div class="contact-item"><small>প্রতিষ্ঠান</small><p>Malda Institute of Education and Research</p></div><div class="contact-item"><small>অবস্থান</small><p>মালদা, পশ্চিমবঙ্গ, ভারত</p></div><div class="contact-item"><small>ওয়েবসাইট</small><p>এই স্বতন্ত্র ওয়েবসাইটটি GitHub Pages-এ হোস্ট করা হয়েছে।</p></div></div></section>
-<section class="section" id="admin"><details class="admin"><summary>প্রশাসকের সাইন-ইন (সেটআপ প্রয়োজন)</summary><p>প্রশাসকের অ্যাক্সেস, শিক্ষার্থীর রেকর্ড বা উপস্থিতি চালুর আগে Firebase Authentication ও নিরাপদ Firestore নিয়ম সেটআপ করতে হবে। এই পাবলিক ওয়েবসাইটে কখনও service-account key বা গোপন তথ্য রাখবেন না।</p><label for="admin-email">প্রশাসকের ইমেল</label><input id="admin-email" type="email" autocomplete="username" placeholder="প্রশাসকের ইমেল"><label for="admin-password">পাসওয়ার্ড</label><input id="admin-password" type="password" autocomplete="current-password" placeholder="পাসওয়ার্ড"><button class="btn" id="login-btn" type="button" disabled>Firebase সেটআপের পর চালু হবে</button><p id="auth-status" role="status">Firebase সেটআপ বাকি আছে।</p></details></section>
+<section class="section" id="admin"><details class="admin"><summary>Administrator sign-in</summary><p>শুধুমাত্র সক্রিয় Admin অ্যাকাউন্ট প্রবেশ করতে পারবে। Student Records ও Attendance-এর অনুমতি Firestore Security Rules দ্বারা নিয়ন্ত্রিত হবে।</p><form id="admin-login-form"><label for="admin-email">Admin ইমেল</label><input id="admin-email" type="email" autocomplete="username" required placeholder="Admin email"><label for="admin-password">পাসওয়ার্ড</label><input id="admin-password" type="password" autocomplete="current-password" required placeholder="Password"><button class="btn" id="login-btn" type="submit">Admin Login</button></form><p id="auth-status" role="status" aria-live="polite">লগইন করতে ইমেল ও পাসওয়ার্ড দিন।</p><div id="admin-session" hidden><p id="admin-session-label"></p><a class="btn ghost" href="bn-students.html">Student Records</a> <a class="btn ghost" href="bn-attendance.html">Attendance</a><button class="btn ghost" id="logout-btn" type="button">Logout</button></div></details></section>
 </main>
 <footer><div><strong>MIER — Malda Institute of Education and Research</strong><br>স্বতন্ত্র ওয়েবসাইট · প্রিমিয়াম নেভি ও গোল্ড ডিজাইন</div><div>© <span id="year"></span> MIER. All rights reserved.</div></footer>
 <script>
@@ -173,5 +173,48 @@ const sitePages=[
 ];
 (function(){const form=document.getElementById("site-search-form");if(!form)return;const input=document.getElementById("site-search-input"),results=document.getElementById("site-search-results"),empty=document.getElementById("site-search-empty");function search(){const q=input.value.trim().toLocaleLowerCase();results.replaceChildren();if(!q){empty.hidden=true;return;}const found=sitePages.filter(p=>(p.title+" "+p.desc+" "+p.keywords).toLocaleLowerCase().includes(q));found.forEach(p=>{const a=document.createElement("a");a.className="search-result";a.href=p.url;const strong=document.createElement("strong"),span=document.createElement("span");strong.textContent=p.title;span.textContent=p.desc;a.append(strong,span);results.append(a);});empty.hidden=found.length>0;}form.addEventListener("submit",e=>{e.preventDefault();search();if(!input.value.trim()){input.focus();return;}results.scrollIntoView({behavior:"smooth",block:"nearest"});});input.addEventListener("input",search);})();
 </script>
-<div style="position:fixed;right:14px;bottom:14px;z-index:99"><a href="index.html" style="display:inline-block;padding:10px 14px;background:#d5b15b;color:#08152b;border-radius:7px;font-weight:800;box-shadow:0 6px 22px #0005">English</a></div></body>
+<div style="position:fixed;right:14px;bottom:14px;z-index:99"><a href="index.html" style="display:inline-block;padding:10px 14px;background:#d5b15b;color:#08152b;border-radius:7px;font-weight:800;box-shadow:0 6px 22px #0005">English</a></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyC7nq8YQODQwryIMkGvUY-nPDfvV45Jf_k",authDomain:"mier-student-records.firebaseapp.com",projectId:"mier-student-records",storageBucket:"mier-student-records.firebasestorage.app",messagingSenderId:"856674166722",appId:"1:856674166722:web:b1da4aed5a2e451d0bd85b",measurementId:"G-9EG76ND4QW"};
+const statusEl=document.getElementById("auth-status");
+const form=document.getElementById("admin-login-form");
+const loginBtn=document.getElementById("login-btn");
+const session=document.getElementById("admin-session");
+const sessionLabel=document.getElementById("admin-session-label");
+const emailInput=document.getElementById("admin-email");
+const passwordInput=document.getElementById("admin-password");
+let auth,db,checking=false;
+function say(message){if(statusEl)statusEl.textContent=message;}
+function showAdmin(email){session.hidden=false;sessionLabel.textContent=`সক্রিয় Admin হিসেবে লগইন: ${email}`;form.hidden=true;}
+function clearAdmin(){session.hidden=true;form.hidden=false;sessionLabel.textContent="";}
+try{
+ const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);
+ onAuthStateChanged(auth,async user=>{
+  if(!user){clearAdmin();return;}
+  try{
+   const snap=await getDoc(doc(db,"staff",user.uid));
+   if(!snap.exists()||snap.data().active!==true||snap.data().role!=="admin"){
+    await signOut(auth);clearAdmin();say("এই অ্যাকাউন্টের Admin অনুমতি নেই।");return;
+   }
+   showAdmin(user.email||user.uid);say("Admin যাচাই সফল।");
+  }catch(err){console.error(err);say("Admin role যাচাই করা যায়নি। Firestore Rules ও সংযোগ পরীক্ষা করুন।");clearAdmin();}
+ });
+ form.addEventListener("submit",async event=>{
+  event.preventDefault();if(checking)return;checking=true;loginBtn.disabled=true;loginBtn.textContent="যাচাই হচ্ছে…";say("Firebase-এ নিরাপদ লগইন করা হচ্ছে…"); 
+  try{await signInWithEmailAndPassword(auth,emailInput.value.trim(),passwordInput.value);passwordInput.value="";}
+  catch(err){console.error(err);const code=err?.code||"";let message="";
+   if(code==="auth/invalid-credential"||code==="auth/wrong-password"||code==="auth/user-not-found")message="ইমেল বা পাসওয়ার্ড সঠিক নয়।";
+   else if(code==="auth/too-many-requests")message="অনেকবার চেষ্টা হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।";
+   else if(code==="auth/unauthorized-domain")message="Firebase Authentication-এ GitHub Pages domain অনুমোদন করুন।";
+   else message=`লগইন ব্যর্থ (${code||"unknown"}). Firebase Authentication সেটিংস পরীক্ষা করুন।`;
+   say(message);
+  }finally{checking=false;loginBtn.disabled=false;loginBtn.textContent="Admin Login";}
+ });
+ document.getElementById("logout-btn").addEventListener("click",async()=>{await signOut(auth);say("আপনি লগআউট করেছেন।");});
+}catch(err){console.error(err);say("Firebase module চালু হয়নি। পেজ refresh করে আবার চেষ্টা করুন।");loginBtn.disabled=true;}
+</script>
+</body>
 </html>
