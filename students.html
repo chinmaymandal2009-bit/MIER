@@ -75,6 +75,7 @@ footer strong{background:linear-gradient(100deg,#f2dfaa,#2dd4bf,#d5b15b);backgro
 <style>
 .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}.form-grid label,.search-label{display:flex;flex-direction:column;gap:6px;color:#dbe4ef;font-size:13px}.form-grid input,.form-grid select,.search-label input{width:100%;padding:12px;border:1px solid #ffffff30;border-radius:6px;background:#071225;color:#fff;font:inherit}.form-grid button{justify-self:start}.staff-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:18px 0}.search-label{margin:18px 0}.table-wrap{width:100%;overflow-x:auto}.records-table{width:100%;border-collapse:collapse;font-size:13px}.records-table th,.records-table td{padding:10px;text-align:left;border-bottom:1px solid #ffffff20;white-space:nowrap}.records-table th{color:#f2dfaa}.records-table td{color:#dbe4ef}.records-table button{padding:6px 9px;background:#d5b15b;color:#08152b;border:0;border-radius:4px;font-weight:700;cursor:pointer}.form-grid[hidden],#records-area[hidden]{display:none!important}@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
 </style>
+<script>setTimeout(()=>{const m=document.getElementById('auth-message');if(m&&m.textContent.includes('Sign in with your authorized'))m.textContent='Firebase script did not start. Refresh with Ctrl+Shift+R; if this repeats, check whether gstatic.com is blocked in browser Console/Network.';},12000);</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
@@ -138,19 +139,21 @@ async function loadRecords() {
 loginForm.addEventListener("submit", async e => {
   e.preventDefault();
   const submitButton = loginForm.querySelector('button[type="submit"]');
-  submitButton.disabled = true; say("Signing in… waiting up to 15 seconds.");
+  submitButton.disabled = true; say("Sending sign-in request to Firebase…");
+  let timer;
   try {
     await Promise.race([
       signInWithEmailAndPassword(auth, $("login-email").value.trim(), $("login-password").value),
-      new Promise((_, reject) => setTimeout(() => reject(Object.assign(new Error("login-timeout"), {code:"auth-timeout"})), 15000))
+      new Promise((_, reject) => { timer=setTimeout(() => reject(Object.assign(new Error("login-timeout"), {code:"auth-timeout"})), 15000); })
     ]);
+    say("Sign-in succeeded. Verifying staff permissions…");
   } catch (err) {
     console.error("MIER login error:", err);
     const code = err?.code || "unknown";
     say(code === "auth-timeout"
       ? "No response from Firebase after 15 seconds. Check internet, Firebase Authentication and Authorized domains."
       : "Sign-in failed (" + code + "). Check the email/password and Firebase Authentication Email/Password setting.");
-  } finally { submitButton.disabled = false; }
+  } finally { clearTimeout(timer); submitButton.disabled = false; }
 });
 $("logout-button").addEventListener("click", () => signOut(auth));
 $("student-search").addEventListener("input", renderRows);
@@ -195,8 +198,9 @@ onAuthStateChanged(auth, async user => {
     $("action-heading").hidden = currentRole !== "admin";
     await loadRecords(); say("Access verified.");
   } catch (err) {
+    console.error("MIER staff/records error:",err);
     recordsArea.hidden = true;
-    say("Could not verify staff access. Ensure Firestore Security Rules allow staff to read their own staff document and active staff to read student records.");
+    say("Staff verification or records loading failed ("+(err?.code||"network-error")+"). Check Firestore Rules, internet, and Firebase Console; the page should not stay stuck.");
   }
 });
 </script><footer><div><strong>MIER — Malda Institute of Education and Research</strong><br>Independent website · Cinematic Navy + Gold</div><div>© <span id="year"></span> MIER</div></footer><script>document.getElementById('year').textContent=new Date().getFullYear();</script><div class="language-switch-bn" style="position:fixed;right:14px;bottom:14px;z-index:99"><a href="bn-students.html" lang="bn" style="display:inline-block;padding:10px 14px;background:#d5b15b;color:#08152b;border-radius:7px;font-weight:800;box-shadow:0 6px 22px #0005">বাংলা</a></div></body></html>
