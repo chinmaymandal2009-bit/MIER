@@ -197,12 +197,12 @@ try{
  onAuthStateChanged(auth,async user=>{
   if(!user){clearAdmin();return;}
   try{
-   const snap=await getDoc(doc(db,"staff",user.uid));
+   const snap=await Promise.race([getDoc(doc(db,"staff",user.uid)),new Promise((_,reject)=>setTimeout(()=>reject(Object.assign(new Error("staff-check-timeout"),{code:"staff-check-timeout"})),12000))]);
    if(!snap.exists()||snap.data().active!==true||snap.data().role!=="admin"){
     await signOut(auth);clearAdmin();say("This account is not authorized as an active Admin.");return;
    }
    showAdmin(user.email||user.uid);say("Admin verified successfully.");
-  }catch(err){console.error(err);say("Could not verify Admin role. Check Firestore Rules and connectivity.");clearAdmin();}
+  }catch(err){console.error(err);await signOut(auth).catch(()=>{});clearAdmin();say(err?.code==="staff-check-timeout"?"Admin permission check timed out. Check the staff document ID and Firestore Rules.":"Could not verify Admin role ("+(err?.code||"unknown")+"). Check the staff document and Firestore Rules.");}
  });
  form.addEventListener("submit",async event=>{
   event.preventDefault();if(checking)return;checking=true;loginBtn.disabled=true;loginBtn.textContent="Signing in…";say("Signing in securely with Firebase…"); 
