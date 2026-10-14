@@ -133,7 +133,7 @@ footer strong{background:linear-gradient(100deg,#f2dfaa,#2dd4bf,#d5b15b);backgro
 <section class="section" id="attendance"><div class="section-head"><div><div class="eyebrow">Daily school operations</div><h2>Student <span>Attendance</span></h2><p class="lead">A class-wise attendance register for authorized teachers and administrators.</p></div></div><div class="cards"><article class="card"><div class="iconbox">📅</div><h3>Daily Register</h3><p>Select class and date, then mark each enrolled student Present, Absent or Late.</p></article><article class="card"><div class="iconbox">▤</div><h3>Attendance History</h3><p>Review saved attendance by date, class or student after database integration.</p></article><article class="card"><div class="iconbox">%</div><h3>Attendance Summary</h3><p>Calculate attendance totals and percentages from saved records.</p></article></div><div class="admin" style="margin-top:18px"><strong>Setup required</strong><p>Attendance entry is not active yet. Firebase sign-in, role-based access and Firestore security rules must be configured first so student attendance cannot be viewed or changed by the public.</p><a class="btn ghost" href="attendance.html">Attendance system →</a></div></section>
 <section class="section" id="admission"><div class="admission-banner"><div><div class="eyebrow">Applications</div><h2>Start your admission journey.</h2><p>Admission is handled through a separate application portal.</p></div><a class="btn" id="admission-main-link" href="https://script.google.com/macros/s/AKfycbyLT6ngXQvWwRkv6wc_gRQWFhNYadrx3Q2HmLY5zv97yKSVNvU4YIjzSyt4eD37VVeN/exec" target="_blank" rel="noopener noreferrer">Open Admission Form ↗</a></div></section>
 <section class="section" id="contact"><div class="section-head"><div><div class="eyebrow">Get in touch</div><h2>Contact <span>MIER</span></h2><p class="lead">Please verify institute contact details before publishing them as official information.</p></div></div><div class="contact-grid"><div class="contact-item"><small>Institution</small><p>Malda Institute of Education and Research</p></div><div class="contact-item"><small>Location</small><p>Malda, West Bengal, India</p></div><div class="contact-item"><small>Website</small><p>This independent website is hosted through GitHub Pages.</p></div></div></section>
-<section class="section" id="admin"><details class="admin"><summary>Administrator sign-in (setup required)</summary><p>Firebase Authentication and secure Firestore rules must be configured before administrator access, student records or attendance entry can be enabled. Never place a service-account key or private secret in this public website.</p><label for="admin-email">Admin email</label><input id="admin-email" type="email" autocomplete="username" placeholder="Admin email"><label for="admin-password">Password</label><input id="admin-password" type="password" autocomplete="current-password" placeholder="Password"><button class="btn" id="login-btn" type="button" disabled>Enable after Firebase setup</button><p id="auth-status" role="status">Firebase setup pending.</p></details></section>
+<section class="section" id="admin"><details class="admin"><summary>Administrator sign-in</summary><p>Only an active Admin account can sign in. Access to Student Records and Attendance remains controlled by Firestore Security Rules.</p><form id="admin-login-form"><label for="admin-email">Admin email</label><input id="admin-email" type="email" autocomplete="username" required placeholder="Admin email"><label for="admin-password">Password</label><input id="admin-password" type="password" autocomplete="current-password" required placeholder="Password"><button class="btn" id="login-btn" type="submit">Admin Login</button></form><p id="auth-status" role="status" aria-live="polite">Enter your admin email and password to sign in.</p><div id="admin-session" hidden><p id="admin-session-label"></p><a class="btn ghost" href="students.html">Student Records</a> <a class="btn ghost" href="attendance.html">Attendance</a><button class="btn ghost" id="logout-btn" type="button">Sign out</button></div></details></section>
 </main>
 <footer><div><strong>MIER — Malda Institute of Education and Research</strong><br>Independent website · Premium Navy + Gold edition</div><div>© <span id="year"></span> MIER. All rights reserved.</div></footer>
 <script>
@@ -175,5 +175,48 @@ const sitePages=[
 ];
 (function(){const form=document.getElementById("site-search-form");if(!form)return;const input=document.getElementById("site-search-input"),results=document.getElementById("site-search-results"),empty=document.getElementById("site-search-empty");function search(){const q=input.value.trim().toLocaleLowerCase();results.replaceChildren();if(!q){empty.hidden=true;return;}const found=sitePages.filter(p=>(p.title+" "+p.desc+" "+p.keywords).toLocaleLowerCase().includes(q));found.forEach(p=>{const a=document.createElement("a");a.className="search-result";a.href=p.url;const strong=document.createElement("strong"),span=document.createElement("span");strong.textContent=p.title;span.textContent=p.desc;a.append(strong,span);results.append(a);});empty.hidden=found.length>0;}form.addEventListener("submit",e=>{e.preventDefault();search();if(!input.value.trim()){input.focus();return;}results.scrollIntoView({behavior:"smooth",block:"nearest"});});input.addEventListener("input",search);})();
 </script>
-<div class="language-switch-bn" style="position:fixed;right:14px;bottom:14px;z-index:99"><a href="bn-index.html" lang="bn" style="display:inline-block;padding:10px 14px;background:#d5b15b;color:#08152b;border-radius:7px;font-weight:800;box-shadow:0 6px 22px #0005">বাংলা</a></div></body>
+<div class="language-switch-bn" style="position:fixed;right:14px;bottom:14px;z-index:99"><a href="bn-index.html" lang="bn" style="display:inline-block;padding:10px 14px;background:#d5b15b;color:#08152b;border-radius:7px;font-weight:800;box-shadow:0 6px 22px #0005">বাংলা</a></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyC7nq8YQODQwryIMkGvUY-nPDfvV45Jf_k",authDomain:"mier-student-records.firebaseapp.com",projectId:"mier-student-records",storageBucket:"mier-student-records.firebasestorage.app",messagingSenderId:"856674166722",appId:"1:856674166722:web:b1da4aed5a2e451d0bd85b",measurementId:"G-9EG76ND4QW"};
+const statusEl=document.getElementById("auth-status");
+const form=document.getElementById("admin-login-form");
+const loginBtn=document.getElementById("login-btn");
+const session=document.getElementById("admin-session");
+const sessionLabel=document.getElementById("admin-session-label");
+const emailInput=document.getElementById("admin-email");
+const passwordInput=document.getElementById("admin-password");
+let auth,db,checking=false;
+function say(message){if(statusEl)statusEl.textContent=message;}
+function showAdmin(email){session.hidden=false;sessionLabel.textContent=`Signed in as authorized Admin: ${email}`;form.hidden=true;}
+function clearAdmin(){session.hidden=true;form.hidden=false;sessionLabel.textContent="";}
+try{
+ const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);
+ onAuthStateChanged(auth,async user=>{
+  if(!user){clearAdmin();return;}
+  try{
+   const snap=await getDoc(doc(db,"staff",user.uid));
+   if(!snap.exists()||snap.data().active!==true||snap.data().role!=="admin"){
+    await signOut(auth);clearAdmin();say("This account is not authorized as an active Admin.");return;
+   }
+   showAdmin(user.email||user.uid);say("Admin verified successfully.");
+  }catch(err){console.error(err);say("Could not verify Admin role. Check Firestore Rules and connectivity.");clearAdmin();}
+ });
+ form.addEventListener("submit",async event=>{
+  event.preventDefault();if(checking)return;checking=true;loginBtn.disabled=true;loginBtn.textContent="Signing in…";say("Signing in securely with Firebase…"); 
+  try{await signInWithEmailAndPassword(auth,emailInput.value.trim(),passwordInput.value);passwordInput.value="";}
+  catch(err){console.error(err);const code=err?.code||"";let message="";
+   if(code==="auth/invalid-credential"||code==="auth/wrong-password"||code==="auth/user-not-found")message="Email or password is incorrect.";
+   else if(code==="auth/too-many-requests")message="Too many attempts. Please wait and try again.";
+   else if(code==="auth/unauthorized-domain")message="Authorize the GitHub Pages domain in Firebase Authentication settings.";
+   else message=`Sign-in failed (${code||"unknown"}). Check Firebase Authentication settings.`;
+   say(message);
+  }finally{checking=false;loginBtn.disabled=false;loginBtn.textContent="Admin Login";}
+ });
+ document.getElementById("logout-btn").addEventListener("click",async()=>{await signOut(auth);say("You have signed out.");});
+}catch(err){console.error(err);say("Firebase could not start. Refresh the page and try again.");loginBtn.disabled=true;}
+</script>
+</body>
 </html>
