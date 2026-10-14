@@ -9,53 +9,57 @@
 <script>
 const APPS_SCRIPT_URL = "PASTE_YOUR_DEPLOYED_APPS_SCRIPT_WEB_APP_URL_HERE";
 const $ = id => document.getElementById(id);
-function safeText(value){ return value == null || value === "" ? "—" : String(value); }
-function addCell(row, value){ const td=document.createElement("td"); td.textContent=safeText(value); row.append(td); }
-function renderRows(id, records, keys, emptyMessage){
- const tbody=$(id); tbody.replaceChildren();
+function safeText(value){return value == null || value === "" ? "—" : String(value);}
+function addCell(row,value){const td=document.createElement("td");td.textContent=safeText(value);row.append(td);}
+function renderRows(id,records,keys,emptyMessage){
+ const tbody=$(id);tbody.replaceChildren();
  if(!Array.isArray(records)||!records.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=keys.length;td.className="empty";td.textContent=emptyMessage;tr.append(td);tbody.append(tr);return;}
  records.forEach(item=>{const tr=document.createElement("tr");keys.forEach(key=>addCell(tr,item[key]));tbody.append(tr);});
 }
-$("lookup").addEventListener("submit", async event=>{
- event.preventDefault();
- $("dashboard").style.display="none";
- if(!APPS_SCRIPT_URL.startsWith("https://script.google.com/") || APPS_SCRIPT_URL.includes("PASTE_YOUR")){
-  $("message").textContent="Backend URL has not been added yet. Deploy the Apps Script Web App first.";
-  return;
+function requestProfile(params){
+ return new Promise((resolve,reject)=>{
+  const callback="mierCallback_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+  const script=document.createElement("script");
+  const timeout=setTimeout(()=>{cleanup();reject(new Error("Request timed out"));},15000);
+  function cleanup(){clearTimeout(timeout);try{delete window[callback];}catch(e){window[callback]=undefined;}script.remove();}
+  window[callback]=data=>{cleanup();resolve(data);};
+  const url=new URL(APPS_SCRIPT_URL);
+  Object.entries(params).forEach(([key,value])=>url.searchParams.set(key,value));
+  url.searchParams.set("callback",callback);
+  script.onerror=()=>{cleanup();reject(new Error("Backend connection failed"));};
+  script.src=url.toString();
+  document.head.appendChild(script);
+ });
+}
+$("lookup").addEventListener("submit",async event=>{
+ event.preventDefault();$("dashboard").style.display="none";
+ if(!APPS_SCRIPT_URL.startsWith("https://script.google.com/")||APPS_SCRIPT_URL.includes("PASTE_YOUR")){
+  $("message").textContent="Apps Script Web App URL has not been added yet.";return;
  }
  $("search-btn").disabled=true;
  $("message").textContent="Searching student records…";
  try{
-  const params=new URLSearchParams({
-   action:"lookup",
-   name:$("child-name").value.trim(),
-   className:$("child-class").value.trim(),
-   roll:$("child-roll").value.trim(),
-   year:$("child-year").value.trim()
-  });
-  const response=await fetch(APPS_SCRIPT_URL+"?"+params.toString(),{method:"GET",redirect:"follow"});
-  if(!response.ok) throw new Error("Request failed");
-  const data=await response.json();
-  if(!data.success) throw new Error(data.message||"No matching record");
+  const data=await requestProfile({action:"lookup",name:$("child-name").value.trim(),className:$("child-class").value.trim(),roll:$("child-roll").value.trim(),year:$("child-year").value.trim()});
+  if(!data.success)throw new Error(data.message||"No matching record");
   const s=data.student||{};
   $("student-name").textContent=s.name||"Student";
   $("student-subtitle").textContent=[s.className?"Class "+s.className:"",s.roll?"Roll "+s.roll:"",s.academicYear||""].filter(Boolean).join(" · ");
   const photo=$("student-photo");
-  if(s.photoURL){photo.src=s.photoURL;photo.hidden=false;}else{photo.removeAttribute("src");photo.hidden=true;}
+  if(s.photoURL){photo.onerror=()=>{photo.hidden=true;};photo.src=s.photoURL;photo.hidden=false;}else{photo.removeAttribute("src");photo.hidden=true;}
   const metaItems=[["Class / Section",s.className],["Roll",s.roll],["Academic Year",s.academicYear]];
   $("student-meta").replaceChildren(...metaItems.map(([label,value])=>{const box=document.createElement("div"),small=document.createElement("small"),strong=document.createElement("strong");small.textContent=label;strong.textContent=safeText(value);box.append(small,strong);return box;}));
   const a=data.attendance||{};
   $("present").textContent=safeText(a.present??0);$("absent").textContent=safeText(a.absent??0);$("late").textContent=safeText(a.late??0);$("rate").textContent=a.percentage==null?"—":a.percentage+"%";
-  $("attendance-summary").textContent="Total recorded attendance days: "+safeText(a.totalRecordedDays??0);
-  renderRows("attendance-rows",data.attendanceHistory||[],["date","status"],"No attendance records found.");
+  $("attendance-summary").textContent="Total recorded days: "+safeText(a.totalRecordedDays??0);
+  renderRows("attendance-rows",a.history||[],["date","status"],"No attendance records found.");
   const results=data.results||[];
   renderRows("result-rows",results,["examName","subject","marksObtained","fullMarks","grade","performance"],"No results found.");
-  const totals=results.reduce((acc,r)=>{const m=Number(r.marksObtained),f=Number(r.fullMarks);if(Number.isFinite(m)&&Number.isFinite(f)&&r.marksObtained!==""&&r.fullMarks!==""){acc.marks+=m;acc.full+=f;}return acc;},{marks:0,full:0});
-  const summary=[["Total Marks",totals.marks+" / "+totals.full],["Percentage",totals.full?Math.round(totals.marks/totals.full*10000)/100+"%":"—"],["Grade",data.grade||"—"],["Performance",data.performance||"—"]];
-  $("result-summary").replaceChildren(...summary.map(([label,value])=>{const box=document.createElement("div"),small=document.createElement("small"),strong=document.createElement("strong");small.textContent=label;strong.textContent=safeText(value);box.append(small,strong);return box;}));
+  const summary=data.summary||{};
+  const totals=[["Total Marks",safeText(summary.totalMarks)+" / "+safeText(summary.totalFullMarks)],["Percentage",summary.percentage==null?"—":summary.percentage+"%"]];
+  $("result-summary").replaceChildren(...totals.map(([label,value])=>{const box=document.createElement("div"),small=document.createElement("small"),strong=document.createElement("strong");small.textContent=label;strong.textContent=safeText(value);box.append(small,strong);return box;}));
   $("dashboard").style.display="block";
   $("message").textContent="Student profile loaded.";
- }catch(error){console.error(error);$("message").textContent="No matching record found or the Apps Script connection failed.";}
+ }catch(error){console.error(error);$("message").textContent="No matching record found or backend connection failed.";}
  finally{$("search-btn").disabled=false;}
 });
 </script></body></html>
