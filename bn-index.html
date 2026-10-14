@@ -204,14 +204,22 @@ try{
  });
  form.addEventListener("submit",async event=>{
   event.preventDefault();if(checking)return;checking=true;loginBtn.disabled=true;loginBtn.textContent="যাচাই হচ্ছে…";say("Firebase-এ নিরাপদ লগইন করা হচ্ছে…"); 
-  try{await signInWithEmailAndPassword(auth,emailInput.value.trim(),passwordInput.value);passwordInput.value="";}
+  let timeoutId;
+  try{
+   await Promise.race([
+    signInWithEmailAndPassword(auth,emailInput.value.trim(),passwordInput.value),
+    new Promise((_,reject)=>{timeoutId=setTimeout(()=>reject(Object.assign(new Error("Firebase sign-in timed out"),{code:"auth-timeout"})),15000);})
+   ]);
+   passwordInput.value="";
+  }
   catch(err){console.error(err);const code=err?.code||"";let message="";
    if(code==="auth/invalid-credential"||code==="auth/wrong-password"||code==="auth/user-not-found")message="ইমেল বা পাসওয়ার্ড সঠিক নয়।";
    else if(code==="auth/too-many-requests")message="অনেকবার চেষ্টা হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।";
    else if(code==="auth/unauthorized-domain")message="Firebase Authentication-এ GitHub Pages domain অনুমোদন করুন।";
+   else if(code==="auth/network-request-failed"||code==="auth-timeout")message="১৫ সেকেন্ডেও Firebase উত্তর দেয়নি। ইন্টারনেট, browser extension ও Firebase Authentication সেটিংস পরীক্ষা করে আবার চেষ্টা করুন।";
    else message=`লগইন ব্যর্থ (${code||"unknown"}). Firebase Authentication সেটিংস পরীক্ষা করুন।`;
    say(message);
-  }finally{checking=false;loginBtn.disabled=false;loginBtn.textContent="Admin Login";}
+  }finally{clearTimeout(timeoutId);checking=false;loginBtn.disabled=false;loginBtn.textContent="Admin Login";}
  });
  document.getElementById("logout-btn").addEventListener("click",async()=>{await signOut(auth);say("আপনি লগআউট করেছেন।");});
 }catch(err){console.error(err);say("Firebase module চালু হয়নি। পেজ refresh করে আবার চেষ্টা করুন।");loginBtn.disabled=true;}
