@@ -206,14 +206,22 @@ try{
  });
  form.addEventListener("submit",async event=>{
   event.preventDefault();if(checking)return;checking=true;loginBtn.disabled=true;loginBtn.textContent="Signing in…";say("Signing in securely with Firebase…"); 
-  try{await signInWithEmailAndPassword(auth,emailInput.value.trim(),passwordInput.value);passwordInput.value="";}
+  let timeoutId;
+  try{
+   await Promise.race([
+    signInWithEmailAndPassword(auth,emailInput.value.trim(),passwordInput.value),
+    new Promise((_,reject)=>{timeoutId=setTimeout(()=>reject(Object.assign(new Error("Firebase sign-in timed out"),{code:"auth-timeout"})),15000);})
+   ]);
+   passwordInput.value="";
+  }
   catch(err){console.error(err);const code=err?.code||"";let message="";
    if(code==="auth/invalid-credential"||code==="auth/wrong-password"||code==="auth/user-not-found")message="Email or password is incorrect.";
    else if(code==="auth/too-many-requests")message="Too many attempts. Please wait and try again.";
    else if(code==="auth/unauthorized-domain")message="Authorize the GitHub Pages domain in Firebase Authentication settings.";
+   else if(code==="auth/network-request-failed"||code==="auth-timeout")message="Firebase did not respond within 15 seconds. Check internet, browser extensions, and Firebase Authentication settings, then try again.";
    else message=`Sign-in failed (${code||"unknown"}). Check Firebase Authentication settings.`;
    say(message);
-  }finally{checking=false;loginBtn.disabled=false;loginBtn.textContent="Admin Login";}
+  }finally{clearTimeout(timeoutId);checking=false;loginBtn.disabled=false;loginBtn.textContent="Admin Login";}
  });
  document.getElementById("logout-btn").addEventListener("click",async()=>{await signOut(auth);say("You have signed out.");});
 }catch(err){console.error(err);say("Firebase could not start. Refresh the page and try again.");loginBtn.disabled=true;}
