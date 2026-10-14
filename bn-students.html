@@ -59,6 +59,7 @@ footer strong{background:linear-gradient(100deg,#f2dfaa,#2dd4bf,#d5b15b);backgro
     <form id="student-form" class="form-grid" hidden>
       <label>শিক্ষার্থী আইডি<input id="student-id" required maxlength="40"></label>
       <label>পূর্ণ নাম<input id="student-name" required maxlength="120"></label>
+      <label>শিক্ষার্থীর ছবি (JPG/PNG/WebP, সর্বোচ্চ 5 MB)<input id="student-photo" type="file" accept="image/jpeg,image/png,image/webp"></label><img id="photo-preview" alt="ছবির প্রিভিউ" hidden style="width:96px;height:96px;object-fit:cover;border-radius:10px;border:1px solid #ffffff40">
       <label>শ্রেণি / বিভাগ<input id="student-class" required maxlength="40"></label>
       <label>রোল নম্বর<input id="student-roll" required maxlength="30"></label>
       <label>শিক্ষাবর্ষ<input id="student-year" required maxlength="20"></label>
@@ -78,6 +79,7 @@ footer strong{background:linear-gradient(100deg,#f2dfaa,#2dd4bf,#d5b15b);backgro
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 const firebaseConfig = {
   apiKey: "AIzaSyC7nq8YQODQwryIMkGvUY-nPDfvV45Jf_k",
   authDomain: "mier-student-records.firebaseapp.com",
@@ -90,6 +92,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 const $ = id => document.getElementById(id);
 const msg = $("auth-message");
 const loginForm = $("login-form");
@@ -105,12 +108,13 @@ function renderRows() {
   tbody.replaceChildren();
   if (!rows.length) {
     const tr = document.createElement("tr"), td = document.createElement("td");
-    td.colSpan = currentRole === "admin" ? 7 : 6;
+    td.colSpan = currentRole === "admin" ? 8 : 7;
     td.textContent = "কোনও মিল থাকা রেকর্ড নেই।";
     tr.append(td); tbody.append(tr); return;
   }
   for (const s of rows) {
     const tr = document.createElement("tr");
+    if (s.photoURL) { const td = document.createElement("td"); const img = document.createElement("img"); img.src = s.photoURL; img.alt = "Student photo"; img.loading = "lazy"; img.style.cssText = "width:48px;height:48px;object-fit:cover;border-radius:8px"; td.append(img); tr.append(td); } else { const td = document.createElement("td"); td.textContent = "—"; tr.append(td); }
     for (const value of [s.studentId,s.name,s.classSection,s.roll,s.academicYear,s.status]) {
       const td = document.createElement("td"); td.textContent = value || "—"; tr.append(td);
     }
@@ -138,6 +142,8 @@ loginForm.addEventListener("submit", async e => {
 });
 $("logout-button").addEventListener("click", () => signOut(auth));
 $("student-search").addEventListener("input", renderRows);
+const photoInput = $("student-photo");
+photoInput.addEventListener("change", () => { const file = photoInput.files[0]; const preview = $("photo-preview"); if (!file) { preview.hidden = true; preview.removeAttribute("src"); return; } if (!["image/jpeg","image/png","image/webp"].includes(file.type) || file.size > 5*1024*1024) { photoInput.value = ""; preview.hidden = true; say("Choose a JPG, PNG or WebP image up to 5 MB."); return; } preview.src = URL.createObjectURL(file); preview.hidden = false; });
 studentForm.addEventListener("submit", async e => {
   e.preventDefault();
   if (currentRole !== "admin") return;
@@ -148,8 +154,16 @@ studentForm.addEventListener("submit", async e => {
     createdAt:serverTimestamp(), createdBy:auth.currentUser.uid
   };
   try {
+    const photo = photoInput.files[0];
+    if (photo) {
+      if (!["image/jpeg","image/png","image/webp"].includes(photo.type) || photo.size > 5*1024*1024) throw new Error("Invalid photo: choose JPG, PNG or WebP up to 5 MB.");
+      const safeId = record.studentId.replace(/[^a-zA-Z0-9_-]/g,"_");
+      const photoRef = storageRef(storage, "student-photos/" + safeId + "/" + Date.now() + "-" + photo.name.replace(/[^a-zA-Z0-9._-]/g,"_"));
+      await uploadBytes(photoRef, photo, {contentType:photo.type});
+      record.photoURL = await getDownloadURL(photoRef);
+    }
     await addDoc(collection(db,"students"), record);
-    studentForm.reset(); await loadRecords(); say("শিক্ষার্থীর রেকর্ড সংরক্ষিত হয়েছে।");
+    studentForm.reset(); $("photo-preview").hidden = true; $("photo-preview").removeAttribute("src"); await loadRecords(); say("শিক্ষার্থীর রেকর্ড সংরক্ষিত হয়েছে।");
   } catch (err) { say("রেকর্ড সংরক্ষণ হয়নি। Firestore Rules ও staff অনুমতি যাচাই করুন।"); }
 });
 onAuthStateChanged(auth, async user => {
