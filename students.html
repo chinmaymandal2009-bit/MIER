@@ -41,4 +41,136 @@
 .notice>span{animation:mier-ocean-glow 9s ease-in-out infinite!important}
 footer strong{background:linear-gradient(100deg,#f2dfaa,#2dd4bf,#d5b15b);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;animation:mier-ocean-pan 10s ease-in-out infinite!important}
 @media(prefers-reduced-motion:reduce){.top,.brand-title,.logo,.hero,.hero h1,.institution-title,.eyebrow,.navbtn,.goldbtn,.nav-cta,.panel,.tiles article,.glass,.notice>span,footer strong{animation:none!important;transition:none!important}}
-</style></head><body><div class="top"></div><header><a class="brand" href="index.html" aria-label="MIER Home"><span class="logo"><img src="https://drive.google.com/thumbnail?id=1kkRUAVldz-wTNCRZzCl3AbltyR0lvVA2&sz=w500" alt="MIER School Logo" loading="eager"></span><span class="brand-title">MALDA INSTITUTE OF EDUCATION AND RESEARCH</span></a><nav><a href="index.html">Home</a><a href="about.html">About</a><a href="notices.html">Notices</a><a href="resources.html">Resources</a><a href="students.html">Students</a><a href="attendance.html">Attendance</a><a href="contact.html">Contact</a><a class="navbtn" href="admission.html">Admission ↗</a><a class="navbtn" href="bn-students.html" lang="bn">বাংলা</a></nav></header><section class="hero"><div class="eyebrow">Student records portal</div><h1>Student<br> Information</h1><p>Student profiles for authorized staff, with privacy and secure access as the priority.</p></section><main class="wrap"><a class="back" href="index.html">← Back to Home</a><section class="panel"><span class="eyebrow">AUTHORIZED STAFF ONLY</span><h2>Student <em>Information</em></h2><p>Planned student fields include Student ID, full name, class/section, roll number, academic year and enrollment status.</p><div class="tiles compact"><article><b>01</b><h3>Student profiles</h3><p>View and maintain verified student records.</p></article><article><b>02</b><h3>Search records</h3><p>Find students by ID, class or roll number.</p></article><article><b>03</b><h3>Secure access</h3><p>Only authorized staff should access student information.</p></article></div><div class="warning"><strong>Not active yet.</strong> Firebase Authentication, Firestore and secure access rules must be configured before real student data is stored. Do not enter student personal information on this public placeholder page.</div></section></main><footer><div><strong>MIER — Malda Institute of Education and Research</strong><br>Independent website · Cinematic Navy + Gold</div><div>© <span id="year"></span> MIER</div></footer><script>document.getElementById('year').textContent=new Date().getFullYear();</script><div class="language-switch-bn" style="position:fixed;right:14px;bottom:14px;z-index:99"><a href="bn-students.html" lang="bn" style="display:inline-block;padding:10px 14px;background:#d5b15b;color:#08152b;border-radius:7px;font-weight:800;box-shadow:0 6px 22px #0005">বাংলা</a></div></body></html>
+</style></head><body><div class="top"></div><header><a class="brand" href="index.html" aria-label="MIER Home"><span class="logo"><img src="https://drive.google.com/thumbnail?id=1kkRUAVldz-wTNCRZzCl3AbltyR0lvVA2&sz=w500" alt="MIER School Logo" loading="eager"></span><span class="brand-title">MALDA INSTITUTE OF EDUCATION AND RESEARCH</span></a><nav><a href="index.html">Home</a><a href="about.html">About</a><a href="notices.html">Notices</a><a href="resources.html">Resources</a><a href="students.html">Students</a><a href="attendance.html">Attendance</a><a href="contact.html">Contact</a><a class="navbtn" href="admission.html">Admission ↗</a><a class="navbtn" href="bn-students.html" lang="bn">বাংলা</a></nav></header><section class="hero"><div class="eyebrow">Student records portal</div><h1>Student<br> Information</h1><p>Student profiles for authorized staff, with privacy and secure access as the priority.</p></section><main class="wrap"><a class="back" href="index.html">← Back to Home</a><section class="panel"><span class="eyebrow">AUTHORIZED STAFF ONLY</span><h2>Student <em>Information</em></h2><p>Planned student fields include Student ID, full name, class/section, roll number, academic year and enrollment status.</p><div class="tiles compact"><article><b>01</b><h3>Student profiles</h3><p>View and maintain verified student records.</p></article><article><b>02</b><h3>Search records</h3><p>Find students by ID, class or roll number.</p></article><article><b>03</b><h3>Secure access</h3><p>Only authorized staff should access student information.</p></article></div>
+<div class="warning"><strong>Staff access only.</strong> Sign in with an account created by the MIER administrator. Student records are private; do not enter unnecessary sensitive information.</div>
+<section class="panel" id="staff-app" style="margin-top:22px">
+  <span class="eyebrow">FIREBASE STUDENT DATABASE</span>
+  <h2>Staff <em>Login</em></h2>
+  <p id="auth-message" role="status">Sign in with your authorized staff email and password.</p>
+  <form id="login-form" class="form-grid">
+    <label>Email<input id="login-email" type="email" autocomplete="username" required></label>
+    <label>Password<input id="login-password" type="password" autocomplete="current-password" required></label>
+    <button class="goldbtn" type="submit">Sign in</button>
+  </form>
+  <div id="records-area" hidden>
+    <div class="staff-bar"><span id="staff-role"></span><button id="logout-button" class="goldbtn" type="button">Sign out</button></div>
+    <h2>Student <em>Records</em></h2>
+    <p id="records-help">Loading records…</p>
+    <form id="student-form" class="form-grid" hidden>
+      <label>Student ID<input id="student-id" required maxlength="40"></label>
+      <label>Full name<input id="student-name" required maxlength="120"></label>
+      <label>Class / Section<input id="student-class" required maxlength="40"></label>
+      <label>Roll number<input id="student-roll" required maxlength="30"></label>
+      <label>Academic year<input id="student-year" required maxlength="20"></label>
+      <label>Enrollment status<select id="student-status"><option>Active</option><option>Inactive</option></select></label>
+      <button class="goldbtn" type="submit">Save student</button>
+    </form>
+    <label class="search-label">Search by ID, name, class or roll
+      <input id="student-search" type="search" placeholder="Type to search…">
+    </label>
+    <div class="table-wrap"><table class="records-table"><thead><tr><th>Student ID</th><th>Name</th><th>Class</th><th>Roll</th><th>Year</th><th>Status</th><th id="action-heading" hidden>Action</th></tr></thead><tbody id="student-rows"><tr><td colspan="7">Sign in to view records.</td></tr></tbody></table></div>
+  </div>
+</section>
+<style>
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}.form-grid label,.search-label{display:flex;flex-direction:column;gap:6px;color:#dbe4ef;font-size:13px}.form-grid input,.form-grid select,.search-label input{width:100%;padding:12px;border:1px solid #ffffff30;border-radius:6px;background:#071225;color:#fff;font:inherit}.form-grid button{justify-self:start}.staff-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:18px 0}.search-label{margin:18px 0}.table-wrap{width:100%;overflow-x:auto}.records-table{width:100%;border-collapse:collapse;font-size:13px}.records-table th,.records-table td{padding:10px;text-align:left;border-bottom:1px solid #ffffff20;white-space:nowrap}.records-table th{color:#f2dfaa}.records-table td{color:#dbe4ef}.records-table button{padding:6px 9px;background:#d5b15b;color:#08152b;border:0;border-radius:4px;font-weight:700;cursor:pointer}.form-grid[hidden],#records-area[hidden]{display:none!important}@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
+</style>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyC7nq8YQODQwryIMkGvUY-nPDfvV45Jf_k",
+  authDomain: "mier-student-records.firebaseapp.com",
+  projectId: "mier-student-records",
+  storageBucket: "mier-student-records.firebasestorage.app",
+  messagingSenderId: "856674166722",
+  appId: "1:856674166722:web:b1da4aed5a2e451d0bd85b",
+  measurementId: "G-9EG76ND4QW"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
+const msg = $("auth-message");
+const loginForm = $("login-form");
+const recordsArea = $("records-area");
+const studentForm = $("student-form");
+let currentRole = null;
+let allStudents = [];
+const say = text => { msg.textContent = text; };
+function renderRows() {
+  const term = $("student-search").value.trim().toLowerCase();
+  const rows = allStudents.filter(s => [s.studentId,s.name,s.classSection,s.roll,s.academicYear,s.status].some(v => String(v || "").toLowerCase().includes(term)));
+  const tbody = $("student-rows");
+  tbody.replaceChildren();
+  if (!rows.length) {
+    const tr = document.createElement("tr"), td = document.createElement("td");
+    td.colSpan = currentRole === "admin" ? 7 : 6;
+    td.textContent = "No matching student records.";
+    tr.append(td); tbody.append(tr); return;
+  }
+  for (const s of rows) {
+    const tr = document.createElement("tr");
+    for (const value of [s.studentId,s.name,s.classSection,s.roll,s.academicYear,s.status]) {
+      const td = document.createElement("td"); td.textContent = value || "—"; tr.append(td);
+    }
+    if (currentRole === "admin") {
+      const td = document.createElement("td");
+      const del = document.createElement("button");
+      del.type = "button"; del.textContent = "Remove";
+      del.disabled = true; del.title = "Deletion is disabled until a secure deletion rule is implemented.";
+      td.append(del); tr.append(td);
+    }
+    tbody.append(tr);
+  }
+}
+async function loadRecords() {
+  $("records-help").textContent = "Loading records…";
+  const snap = await getDocs(collection(db, "students"));
+  allStudents = snap.docs.map(d => ({id:d.id,...d.data()}));
+  renderRows();
+  $("records-help").textContent = currentRole === "admin" ? "Admin access: add student records and search the list." : "Teacher access: view and search student records.";
+}
+loginForm.addEventListener("submit", async e => {
+  e.preventDefault(); say("Signing in…");
+  try { await signInWithEmailAndPassword(auth, $("login-email").value.trim(), $("login-password").value); }
+  catch (err) { say("Sign-in failed. Check the email/password or ask the MIER administrator to verify the account."); }
+});
+$("logout-button").addEventListener("click", () => signOut(auth));
+$("student-search").addEventListener("input", renderRows);
+studentForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (currentRole !== "admin") return;
+  const record = {
+    studentId:$("student-id").value.trim(), name:$("student-name").value.trim(),
+    classSection:$("student-class").value.trim(), roll:$("student-roll").value.trim(),
+    academicYear:$("student-year").value.trim(), status:$("student-status").value,
+    createdAt:serverTimestamp(), createdBy:auth.currentUser.uid
+  };
+  try {
+    await addDoc(collection(db,"students"), record);
+    studentForm.reset(); await loadRecords(); say("Student record saved.");
+  } catch (err) { say("Could not save record. Check Firestore Rules and staff permissions."); }
+});
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    currentRole = null; allStudents = []; recordsArea.hidden = true; loginForm.hidden = false;
+    $("staff-role").textContent = ""; say("Sign in with your authorized staff email and password."); return;
+  }
+  try {
+    const staffSnap = await getDoc(doc(db,"staff",user.uid));
+    if (!staffSnap.exists() || staffSnap.data().active !== true || !["admin","teacher"].includes(staffSnap.data().role)) {
+      await signOut(auth); say("Access denied. Your account is not an active authorized staff account."); return;
+    }
+    currentRole = staffSnap.data().role;
+    loginForm.hidden = true; recordsArea.hidden = false;
+    $("staff-role").textContent = currentRole === "admin" ? "Signed in: Admin" : "Signed in: Teacher";
+    studentForm.hidden = currentRole !== "admin";
+    $("action-heading").hidden = currentRole !== "admin";
+    await loadRecords(); say("Access verified.");
+  } catch (err) {
+    recordsArea.hidden = true;
+    say("Could not verify staff access. Ensure Firestore Security Rules allow staff to read their own staff document and active staff to read student records.");
+  }
+});
+</script><footer><div><strong>MIER — Malda Institute of Education and Research</strong><br>Independent website · Cinematic Navy + Gold</div><div>© <span id="year"></span> MIER</div></footer><script>document.getElementById('year').textContent=new Date().getFullYear();</script><div class="language-switch-bn" style="position:fixed;right:14px;bottom:14px;z-index:99"><a href="bn-students.html" lang="bn" style="display:inline-block;padding:10px 14px;background:#d5b15b;color:#08152b;border-radius:7px;font-weight:800;box-shadow:0 6px 22px #0005">বাংলা</a></div></body></html>
