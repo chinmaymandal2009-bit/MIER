@@ -136,9 +136,21 @@ async function loadRecords() {
   $("records-help").textContent = currentRole === "admin" ? "Admin access: add student records and search the list." : "Teacher access: view and search student records.";
 }
 loginForm.addEventListener("submit", async e => {
-  e.preventDefault(); say("Signing in…");
-  try { await signInWithEmailAndPassword(auth, $("login-email").value.trim(), $("login-password").value); }
-  catch (err) { say("Sign-in failed. Check the email/password or ask the MIER administrator to verify the account."); }
+  e.preventDefault();
+  const submitButton = loginForm.querySelector('button[type="submit"]');
+  submitButton.disabled = true; say("Signing in… waiting up to 15 seconds.");
+  try {
+    await Promise.race([
+      signInWithEmailAndPassword(auth, $("login-email").value.trim(), $("login-password").value),
+      new Promise((_, reject) => setTimeout(() => reject(Object.assign(new Error("login-timeout"), {code:"auth-timeout"})), 15000))
+    ]);
+  } catch (err) {
+    console.error("MIER login error:", err);
+    const code = err?.code || "unknown";
+    say(code === "auth-timeout"
+      ? "No response from Firebase after 15 seconds. Check internet, Firebase Authentication and Authorized domains."
+      : "Sign-in failed (" + code + "). Check the email/password and Firebase Authentication Email/Password setting.");
+  } finally { submitButton.disabled = false; }
 });
 $("logout-button").addEventListener("click", () => signOut(auth));
 $("student-search").addEventListener("input", renderRows);
