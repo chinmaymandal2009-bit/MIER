@@ -136,9 +136,21 @@ async function loadRecords() {
   $("records-help").textContent = currentRole === "admin" ? "Admin access: শিক্ষার্থীর তথ্য যোগ ও খুঁজতে পারবেন।" : "Teacher access: শিক্ষার্থীর তথ্য দেখতে ও খুঁজতে পারবেন।";
 }
 loginForm.addEventListener("submit", async e => {
-  e.preventDefault(); say("লগইন হচ্ছে…");
-  try { await signInWithEmailAndPassword(auth, $("login-email").value.trim(), $("login-password").value); }
-  catch (err) { say("লগইন হয়নি। ইমেল/পাসওয়ার্ড যাচাই করুন অথবা MIER Admin-এর সাহায্য নিন।"); }
+  e.preventDefault();
+  const submitButton = loginForm.querySelector('button[type="submit"]');
+  submitButton.disabled = true; say("লগইন হচ্ছে… ১৫ সেকেন্ড অপেক্ষা করুন।");
+  try {
+    await Promise.race([
+      signInWithEmailAndPassword(auth, $("login-email").value.trim(), $("login-password").value),
+      new Promise((_, reject) => setTimeout(() => reject(Object.assign(new Error("login-timeout"), {code:"auth-timeout"})), 15000))
+    ]);
+  } catch (err) {
+    console.error("MIER login error:", err);
+    const code = err?.code || "unknown";
+    say(code === "auth-timeout"
+      ? "১৫ সেকেন্ডেও Firebase-এর উত্তর আসেনি। ইন্টারনেট, Firebase Authentication ও Authorized domains যাচাই করুন।"
+      : "লগইন ব্যর্থ (" + code + ")। ইমেল/পাসওয়ার্ড এবং Firebase Authentication-এর Email/Password সেটিং যাচাই করুন।");
+  } finally { submitButton.disabled = false; }
 });
 $("logout-button").addEventListener("click", () => signOut(auth));
 $("student-search").addEventListener("input", renderRows);
