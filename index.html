@@ -90,6 +90,8 @@ footer strong{background:linear-gradient(90deg,#f5d778,#67e8f9,#c4b5fd,#fb7185);
 .notice>span{animation:mier-ocean-glow 9s ease-in-out infinite!important}
 footer strong{background:linear-gradient(100deg,#f2dfaa,#2dd4bf,#d5b15b);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;animation:mier-ocean-pan 10s ease-in-out infinite!important}
 @media(prefers-reduced-motion:reduce){.top,.brand-title,.logo,.hero,.hero h1,.institution-title,.eyebrow,.navbtn,.goldbtn,.nav-cta,.panel,.tiles article,.glass,.notice>span,footer strong{animation:none!important;transition:none!important}}
+
+.site-search{max-width:980px;margin:22px auto 0;padding:0 6%}.search-panel{background:#f6f8fc;border:1px solid #dce3ed;border-radius:16px;padding:16px;box-shadow:0 8px 24px #0b1b350a}.search-panel label{display:block;font-weight:800;color:#0b1b35;margin-bottom:8px}.search-row{display:flex;gap:10px}.search-row input{flex:1;min-width:0;padding:13px 14px;border:1px solid #cbd5e1;border-radius:10px;font:inherit;background:#fff;color:#172a43}.search-row button{border:0;border-radius:10px;padding:12px 18px;background:#0b1b35;color:#ead7a0;font:inherit;font-weight:800;cursor:pointer}.search-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:12px}.search-result{display:block;background:#fff;border:1px solid #dce3ed;border-radius:10px;padding:12px;color:#172a43}.search-result strong{display:block;color:#0b1b35}.search-result span{font-size:13px;color:#65758a}.search-empty{margin:12px 0 0;color:#65758a}.search-row button:focus-visible,.search-row input:focus-visible,.search-result:focus-visible{outline:3px solid #c9a44c;outline-offset:2px}@media(max-width:560px){.search-row{flex-direction:column}.search-row button{width:100%}.site-search{margin-top:14px}}
 </style>
 </head>
 <body>
@@ -99,6 +101,7 @@ footer strong{background:linear-gradient(100deg,#f2dfaa,#2dd4bf,#d5b15b);backgro
 <nav aria-label="Main navigation"><a href="#home">Home</a><a href="about.html">About</a><a href="notices.html">Notices</a><a href="resources.html">Resources</a><a href="students.html">Students</a><a href="attendance.html">Attendance</a><a href="contact.html">Contact</a><a class="nav-cta" href="admission.html">Admission ↗</a><a class="navbtn" href="bn-index.html" lang="bn">বাংলা</a></nav>
 </header>
 <section class="hero" id="home"><div class="hero-inner"><div class="eyebrow">Learning · Growth · Excellence</div><h1 class="institution-title">MALDA INSTITUTE OF<br><span>EDUCATION AND RESEARCH</span></h1><p>Welcome to Malda Institute of Education and Research. Explore institute information, announcements, admission resources and student services through our digital home.</p><div class="actions"><a class="btn" href="admission.html">Admission Portal ↗</a><a class="btn ghost" href="about.html">Discover MIER ↓</a></div><div class="hero-note"><span class="pulse"></span>A modern digital experience for the MIER community</div></div></section>
+<section class="site-search" aria-label="Search website"><form class="search-panel" id="site-search-form" role="search"><label for="site-search-input">Search the MIER website</label><div class="search-row"><input id="site-search-input" type="search" placeholder="Try admission, notices, results..." autocomplete="off" aria-controls="site-search-results"><button type="submit">Search</button></div><div id="site-search-results" class="search-results" aria-live="polite"></div><p id="site-search-empty" class="search-empty" hidden>No matching pages found. Try another keyword.</p></form></section>
 <main>
 <section class="section" id="about"><div class="about-grid"><div><div class="eyebrow">Who we are</div><h2>Welcome to <span>MIER</span></h2><p class="lead">This independent website brings institute information and useful resources into one accessible place. Official details and announcements will be added by the institute administration.</p><div class="actions"><a class="btn ghost" href="contact.html">Contact Information</a></div></div><div class="about-panel"><div class="eyebrow">Our digital campus</div><h3>Knowledge. Opportunity. Progress.</h3><p>A mobile-friendly hub for notices, admissions, learning resources and institute updates.</p><div class="statrow"><div class="stat"><strong>24/7</strong><span>Online access</span></div><div class="stat"><strong>One Hub</strong><span>Useful resources</span></div></div></div></div></section>
 <section class="section" id="notices"><div class="section-head"><div><div class="eyebrow">Stay informed</div><h2>Latest <span>Notices</span></h2><p class="lead">Official notices published through the new website will appear here.</p></div></div><div id="notice-list" class="notice-list"><div class="notice"><div class="notice-mark">↗</div><div><h3>Official Notices Folder</h3><p>Open the shared folder to view available notices and announcements.</p><a class="textlink" href="https://drive.google.com/drive/folders/1CdCZ4zlbwnSfMCpC24ZhALs-dKeOmbLr?usp=drive_link" target="_blank" rel="noopener noreferrer">Open Notice Folder ↗</a></div></div></div></section>
@@ -142,6 +145,20 @@ try{
   }
 }catch(e){/* Keep the website usable if animation APIs are unavailable. */}
 
+
+ 
+const sitePages=[
+{title:"Home",desc:"Main institute homepage",url:"index.html",keywords:"home main"},
+{title:"About MIER",desc:"Institute information",url:"about.html",keywords:"about institute school"},
+{title:"Notices",desc:"Latest notices and announcements",url:"notices.html",keywords:"notice announcement update"},
+{title:"Resources & Downloads",desc:"Useful files and learning resources",url:"resources.html",keywords:"resources download pdf"},
+{title:"Student Records",desc:"Student record page",url:"students.html",keywords:"student records"},
+{title:"Attendance",desc:"Attendance management page",url:"attendance.html",keywords:"attendance present absent"},
+{title:"Parent Portal",desc:"View student attendance and results",url:"parent-portal.html",keywords:"parent portal marks results grade"},
+{title:"Admission",desc:"Online admission application",url:"admission.html",keywords:"admission apply form"},
+{title:"Contact",desc:"Contact information",url:"contact.html",keywords:"contact phone address"}
+];
+(function(){const form=document.getElementById("site-search-form");if(!form)return;const input=document.getElementById("site-search-input"),results=document.getElementById("site-search-results"),empty=document.getElementById("site-search-empty");function search(){const q=input.value.trim().toLocaleLowerCase();results.replaceChildren();if(!q){empty.hidden=true;return;}const found=sitePages.filter(p=>(p.title+" "+p.desc+" "+p.keywords).toLocaleLowerCase().includes(q));found.forEach(p=>{const a=document.createElement("a");a.className="search-result";a.href=p.url;const strong=document.createElement("strong"),span=document.createElement("span");strong.textContent=p.title;span.textContent=p.desc;a.append(strong,span);results.append(a);});empty.hidden=found.length>0;}form.addEventListener("submit",e=>{e.preventDefault();search();if(!input.value.trim()){input.focus();return;}results.scrollIntoView({behavior:"smooth",block:"nearest"});});input.addEventListener("input",search);})();
 </script>
 <div class="language-switch-bn" style="position:fixed;right:14px;bottom:14px;z-index:99"><a href="bn-index.html" lang="bn" style="display:inline-block;padding:10px 14px;background:#d5b15b;color:#08152b;border-radius:7px;font-weight:800;box-shadow:0 6px 22px #0005">বাংলা</a></div></body>
 </html>
